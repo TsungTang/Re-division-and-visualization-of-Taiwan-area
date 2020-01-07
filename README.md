@@ -81,13 +81,7 @@
 
 - 函數形式：
 
-
-$z_i=f(x_i,y_i)+\epsilon_i$
-
-$z_i:outcome\ variable\ \ \ \ {x_i,y_i}: planar\ coordinates\ of\ each\ point\ location\ M_i\ ,\ i = 1...N$
-
-$f(x_i,y_i)可以表示為:\ \sum_{j=1}^{P}\overline{z_j} \big\{M_i(x_i,y_i) \in class_j\big\}$
-$class_j:for\ j = 1, ...P, are\ the\ final\ P\ classes\ after\ splitting\ the\ whole\ study\ area$
+![](https://i.imgur.com/sCa7D33.png)
 
 切割後的結果
 
