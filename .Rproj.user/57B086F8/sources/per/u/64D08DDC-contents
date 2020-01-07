@@ -1,0 +1,80 @@
+list.of.packages <- c("klaR",'cba','compareGroups')
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+library(klaR)
+library(cba)
+library(compareGroups)
+
+# 人口學
+sub1.all = tscs172.sav[,.(old,OCP.III,OCP.II,edugp4,male)]
+sub1.all[,edugp4 := ifelse(edugp4 == 99 , NA ,edugp4)]
+sub1.all =  sub1.all[,lapply(.SD, as.factor) , .SDcols = c('old','OCP.III', 'OCP.II', 'edugp4', 'male')]  
+sub1.all = na.omit(sub1.all)
+
+# sub1.all.torun.ohe <- model.matrix(~.-1, data=sub1.all)
+# sub1.all.torun.ohe.binary <- as.dummy(sub1.all.torun.ohe)
+# result.rock <-rockCluster(mushroom.torun.binary, 2, theta=0.8)
+# 
+# 
+# result.kmean = kmeans(sub1.all.torun.ohe, 4, nstart = 50, iter.max = 15) 
+# 
+# 
+# result.kmode <- kmodes(sub1.all.torun.ohe[,-1] , 8, iter.max = 50, weighted = FALSE)
+# result.kmode <- kmodes(sub1.all.torun.ohe[,-1] , 8, iter.max = 50, weighted = FALSE)
+# 
+# result.rock = rockCluster[as.matrix(sub1.all.torun.ohe[,-1]), 8, theta=0.8]
+
+# column transform
+
+sub1.all = tscs172.sav[,.(id , zip, age,OCP.III,OCP.II,edugp4,male)]
+sub1.all[,edugp4 := ifelse(edugp4 == 99 , NA ,edugp4)]
+sub1.all =  str.transform(sub1.all , c( 'OCP.III', 'OCP.II', 'edugp4', 'male') , as.factor)
+sub1.all = na.omit(sub1.all)
+
+anadt1 = cbind(sub1.all[,-1:-2],as.matrix(model.matrix(~.-1, data=sub1.all[,c('edugp4')] ) ))
+anadt1[,edugp4:=NULL]
+anadt1 =  str.transform(anadt1 , c('edugp41','edugp42','edugp43','edugp44') , as.factor)
+
+
+# # factor.dummy transformation
+# function(dt , var , type = 'as.dummy'){
+#   if(is.factor(sub1.all[,edugp4])){
+#     levels(sub1.all$edugp4)
+#   }else{
+#     stop('induced variables are not factor')
+#   }
+# }
+
+#' Compute Gower distance
+#' 
+# x = model.matrix(~.-1, data=sub1.all[,-1])
+gower_dist <- daisy(anadt1, metric = "gower")
+gower_mat <- as.matrix(gower_dist)
+#' Print most similar clients
+sub1.all[which(gower_mat == min(gower_mat[gower_mat != min(gower_mat)]), arr.ind = TRUE)[1, ], ]
+#' Print most dissimilar clients
+sub1.all[which(gower_mat == max(gower_mat[gower_mat != max(gower_mat)]), arr.ind = TRUE)[1, ], ]
+
+sil_width <- c(NA)
+for(i in 3:15){  
+  pam_fit <- pam(gower_dist, diss = TRUE, k = i)  
+  sil_width[i] <- pam_fit$silinfo$avg.width  
+}
+plot(3:15, sil_width,
+     xlab = "Number of clusters",
+     ylab = "Silhouette Width")
+lines(3:15, sil_width)
+
+kmedoid.cluster <- pam(anadt1, k=7) 
+table(kmedoid.cluster$cluster)
+sub1.all[,pam.7:=kmedoid.cluster$clustering]
+
+library(dplyr)
+pam_results <- anadt1 %>%
+  mutate(pam.7 = kmedoid.cluster$clustering) %>%
+  group_by(pam.7) %>%
+  do(the_summary = summary(.))
+pam_results$the_summary
+
+
+anadt1[,mean()]

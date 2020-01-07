@@ -1,0 +1,81 @@
+{
+    "debugBreakpointsState" : {
+        "breakpoints" : [
+            {
+                "editor_line_number" : 59,
+                "editor_state" : 1,
+                "function_name" : "toplevel",
+                "function_steps" : "",
+                "id" : 4,
+                "is_package_breakpoint" : false,
+                "is_pending_debug_completion" : false,
+                "line_number" : 59,
+                "needs_updated_steps" : false,
+                "package_name" : "",
+                "path" : "I:/我的雲端硬碟/drive/181109.classification.area/code/data.clean2.R",
+                "state" : 1,
+                "type" : 1
+            },
+            {
+                "editor_line_number" : 94,
+                "editor_state" : 1,
+                "function_name" : "toplevel",
+                "function_steps" : "",
+                "id" : 5,
+                "is_package_breakpoint" : false,
+                "is_pending_debug_completion" : false,
+                "line_number" : 94,
+                "needs_updated_steps" : false,
+                "package_name" : "",
+                "path" : "I:/我的雲端硬碟/drive/181109.classification.area/code/data.clean2.R",
+                "state" : 1,
+                "type" : 1
+            },
+            {
+                "editor_line_number" : 185,
+                "editor_state" : 1,
+                "function_name" : "toplevel",
+                "function_steps" : "",
+                "id" : 6,
+                "is_package_breakpoint" : false,
+                "is_pending_debug_completion" : false,
+                "line_number" : 185,
+                "needs_updated_steps" : false,
+                "package_name" : "",
+                "path" : "I:/我的雲端硬碟/drive/181109.classification.area/code/analysis2.R",
+                "state" : 1,
+                "type" : 1
+            },
+            {
+                "editor_line_number" : 184,
+                "editor_state" : 1,
+                "function_name" : "toplevel",
+                "function_steps" : "",
+                "id" : 7,
+                "is_package_breakpoint" : false,
+                "is_pending_debug_completion" : false,
+                "line_number" : 184,
+                "needs_updated_steps" : false,
+                "package_name" : "",
+                "path" : "I:/我的雲端硬碟/drive/181109.classification.area/code/analysis2.R",
+                "state" : 1,
+                "type" : 1
+            },
+            {
+                "editor_line_number" : 260,
+                "editor_state" : 1,
+                "function_name" : "toplevel",
+                "function_steps" : "",
+                "id" : 9,
+                "is_package_breakpoint" : false,
+                "is_pending_debug_completion" : false,
+                "line_number" : 260,
+                "needs_updated_steps" : true,
+                "package_name" : "",
+                "path" : "I:/我的雲端硬碟/drive/181109.classification.area/code/map.tang.R",
+                "state" : 1,
+                "type" : 1
+            }
+        ]
+    }
+}

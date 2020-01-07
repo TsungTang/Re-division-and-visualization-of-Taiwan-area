@@ -1,0 +1,723 @@
+---
+title: "Social Network Analysis with R and igraph"
+author: 趙于安
+date: 's710664103@gm.ntpu.edu.tw'
+output:
+  revealjs::revealjs_presentation:
+    theme: serif 
+    transition:  concave
+    center: true
+    reveal_options:
+      slideNumber: true
+      progress: true
+  beamer_presentation:
+    toc: false
+    incremental: true
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(igraph)
+library(pipeR)
+```
+
+# What is a Network?
+
+## **What is a Network?**
+*a set of dyadic ties, all of the same type, among a set of actors.*
+
+- Vertices節點 : also called nodes , actors or individuals.
+- Edges連結 : also called ties or relations.
+
+<img src="picture/small_network.png" style="background:none; border:none; box-shadow:none;">
+
+## **Where can we find a network?**
+
+- Kinship (mother of, wife of)
+- Friendship 
+- Sexual relationship
+- Organization alliance
+- International relation
+- Brain structure
+- Crime collaboration
+- ......
+
+## **Where can we find a network?**
+
+<img src="picture/ffriend.png" style="background:none; border:none; box-shadow:none;">
+
+
+## **Where can we find a network?**
+
+<img src="picture/sexrelation.png" style="background:none; border:none; box-shadow:none; height="900px" width="700px"">
+
+## **Where can we find a network?**
+
+brain structure
+<img src="picture/brain.JPG" style="background:none; border:none; box-shadow:none;">
+
+## **Where can we find a network?**
+
+mid-20th American maﬁa network
+<img src="picture/maﬁa.png" style="background:none; border:none; box-shadow:none; height="800px" width="600px"">
+
+## **Issues**
+
+### Issues that can be investigated
+
+- Spread of information, rumor, diseases, etc.
+- Traffic flow (such as flight routes)
+- Formation of friendship, business alliance, etc
+- Interpersonal trust or conflicts
+- Dating/marriage market
+- Inter-organizational competition
+- Crime co-offending
+......
+
+
+## <b style="font-size:60px;color:black;">Outline</b> 
+
+- R Introduction
+
+- Social Network Introduction
+
+- Visualizing Network Data
+
+- Concept and Application
+
+# <b style="font-size:80px;color:black;">R introduction</b> 
+
+## **Why R?**
+
+- Standard language among professional statisticians 
+- Free of charge
+- Most up-to-date techniques  
+
+Other choices
+
+- UCINET
+- Gephi
+......
+
+## **Useful Guidebooks**
+
+<img src="picture/b1.png" style="background:none; border:none; box-shadow:none; height="400px" width="400px"; align='left';">
+
+<img src="picture/b2.jpg" style="background:none; border:none; box-shadow:none;  align='right';">
+
+## **RStudio interface**
+<img src="picture/r.png" style="background:none; border:none; box-shadow:none;">
+
+## **Basic基本運算**
+```{r assignment}
+# Caculate , assign and evaluate the value
+x <- 3+1         
+x              
+y <- 10/2         
+y+5          
+z <- x+17*y  
+z             
+```
+
+## **Vector向量**
+```{r vector}
+v1 <- c(1, 5, 11, 33)       # 數字向量
+v1
+v2 <- c("台北大學","中央大學")  # 文字向量
+v2
+```
+```{r vector type }
+length(v1)  ; class(v2)    # 檢視向量長度 & 類型
+```
+
+## **Value Comparison**
+```{r value comparison }
+x == y ; x < y ; x != y 
+
+v1==v2 
+
+```
+
+## **Matrix**
+```{r}
+m1 <- matrix(c(1:12) , nrow = 3)
+m1
+```
+subset the data :  Data.frame[row , column]
+```{r}
+m1[2,3] # 第二列；第三行
+m1[c(1,2), c(2,3,4)] # 1,2列；2,3,4行
+```
+
+## **Data types**
+
+- *Numerics* : values like 4.5 are called numerics
+- *Integers* : Natural numbers like 4 are called integers. Integers are also numerics.
+- *Logical* : Boolean values (TRUE or FALSE) are called logical.
+- *Characters* : Text (or string) values are called characters.
+
+## **Input Data**
+```{r}
+# 從檔案輸入資料
+book.df <- readRDS("data/node.book(big5).rds")
+```
+```{r}
+# Check the type of data 
+class(book.df)
+```
+```{r, eval = F}
+# Exaime the data
+summary(book.df)   
+str(book.df) 
+```
+```{r}
+# 欄名稱
+colnames(book.df)
+```
+
+## **Data structures**
+```{r}
+head(book.df , 5)  # take a look at the few row of data
+```
+```{r}
+dim(book.df)
+```
+```{r , eval = F}
+book.df$price  # Exaime the object price
+```
+
+## Help
+
+- 遇到指令語法不熟時 : ?help(指令名稱) or R-intro手冊
+<img src="picture/rintro.png" style="background:none; border:none; box-shadow:none; height="400px" width="300px" ; align='center'">
+
+
+# <b style="font-size:80px;color:black;">Social Network Introduction</b>
+
+## **Complete vs. Ego-centric**
+
+- Whole view networks : A complete structure of the whole set of entities, Example: The whole Facebook (over 1.15 billion of user)
+- Ego-centric networks : Networks around one individual, Example: a person’s Facebook friends
+
+<img src="picture/ego.whole.png" style="background:none; border:none; box-shadow:none; height="800px" width="600px"">
+
+## **Kinds of Network Data**
+
+- Two-mode : also known as *affiliation* or *bipartite* networks, with two different sets of nodes, and ties existing only between nodes belonging to different sets. 
+- One-mode : networks with one set of nodes that are similar to each other
+
+<img src="picture/mode.png" style="background:none; border:none; box-shadow:none;">
+
+## **Two-mode Network**
+
+<img src="picture/two.png" style="background:none; border:none; box-shadow:none;
+height="700px" width="700px"">
+
+## **Data format**
+
+- Adjacency Matrix
+```{r , echo = FALSE}
+
+friends = rbind(c(0,1,1,0,0,0,0,0),
+          c(1,0,1,1,0,0,0,0),
+          c(1,1,0,0,0,0,0,0),
+          c(0,1,0,0,0,0,0,0),
+          c(0,0,1,0,0,1,0,0),
+          c(0,0,1,0,1,0,0,0),
+          c(0,0,0,0,0,0,0,1),
+          c(0,0,0,0,0,1,1,0))
+rownames(friends)=c("A","B","C","D","E","F","G","H")
+colnames(friends)=c("A","B","C","D","E","F","G","H")
+friends
+```
+- Node Edgelist
+```{r , echo = FALSE}
+friends <- data.frame(name1 = c('A','A','B','B','E','E','G','H'),
+                      name2 = c('B','C','C','D','C','F','H','F'))
+
+friends
+```
+
+## **Dyad & Triad**
+
+- Dyad : a pair of actors ,either connected or not.
+- Triad : any *triple* of actors, the smallest social structure that has the true character of a *society*. 
+
+<img src="picture/Possible-dyadic-and-triadic-motifs-of-an-undirected-network-The-upper-panel-includes-the.png" style="background:none; border:none; box-shadow:none;">
+
+## **Undirected vs Directed ties**
+
+<img src="picture/directionality.png" style="background:none; border:none; box-shadow:none;">
+
+## **Distances & Paths**
+
+- Distance : the shortest length between two nodes (aka geodesic)
+- Paths : the chain of connections between vertices, length of a path is number of links
+
+<img src="picture/path.png" style="background:none; border:none; box-shadow:none; height="700px" width="500px"">
+
+# <b style="font-size:80px;color:black;">Visualizing Network Data</b>
+
+## **Create Network Data**
+
+```{r ,networkdata}
+# edges data
+edges.df <- readRDS('data/edges.df.rds')[,-1]
+```
+```{r}
+# Node attributes data
+nodes.df <- readRDS('data/nodes.df.rds')[,-1]
+```
+
+## **Create Network Data**
+
+```{r , networkdata , eval=F}
+# edges data
+edges.df = data.frame(
+ name1=c('Jessie','Jessie','Sidney','Sidney','Karl','Sidney','Britt',
+          'Shayne','Sidney','Sidney','Jessie','Donnie','Sidney',
+         'Rene','Shayne','Jessie','Rene','Elisha','Eugene','Berry',
+         'Odell','Odell','Britt','Elisha','Lacy','Britt','Karl'),
+ name2=c('Sidney','Britt','Britt','Donnie','Berry','Rene','Rene',
+         'Sidney','Elisha','Whitney','Whitney','Odell','Odell',
+         'Whitney','Donnie','Lacy','Lacy','Eugene','Jude','Odell',
+         'Rickie','Karl','Lacy','Jude','Whitney','Whitney','Tommy'),
+ hour=c(1,2,2,1,2,5,5,1,1,3,2,1,1,5,1,2,4,1,3,1,1,1,4,1,3,3,4))
+```
+```{r , eval=F}
+# Node attributes data
+nodes.df = data.frame(
+ name = c('Jessie','Sidney','Britt','Donnie','Karl','Berry','Rene',
+          'Shayne','Elisha','Whitney','Odell','Lacy','Eugene','Jude',
+          'Rickie','Tommy'),
+ gender = c("M","F","F","M","M","M","F","M","M","F","M","F","M","F",
+            "M","M"),
+ ages = c(18,19,21,20,22,18,23,21,22,20,20,22,21,18,19,20))
+```
+
+##
+```{r}
+# Inspect the first few rows of the data
+head(edges.df) ; head(nodes.df)
+```
+
+## **Creating an igraph object**
+```{r , eval = F}
+# Install packages igraph
+install.packages('igraph')
+```
+```{r igraph}
+# Load igraph
+library(igraph)
+
+# Create an igraph object with attributes directly from dataframes
+g <- graph_from_data_frame(edges.df , nodes.df , directed = T)
+
+```
+```{r}
+# Count number of edges
+gsize(g)
+# Count number of vertices
+gorder(g)
+```
+
+##
+```{r}
+# Subset vertices and edges
+V(g) ; E(g)
+```
+
+##
+```{r , out.width = '75%'}
+# Make a very basic plot of the network
+plot(g)
+```
+
+## **Nodes & Edges color**
+```{r, out.width = '60%'}
+plot(g , vertex.color = 'green', vertex.label.color = 'blue', 
+     edge.color = 'black')
+```
+
+## **Nodes & Edges size**
+```{r, out.width = '60%'}
+# chande vertex size & vertex.label.cex
+plot(g , vertex.label.cex = .6 , vertex.size = 20 )
+```
+
+## **Nodes & Edges size**
+```{r, out.width = '60%'}
+# chande edge.arrow.size
+plot(g , edge.arrow.size = 0.3)
+```
+
+## **Adding attributes**
+```{r, out.width = '60%', eval = F}
+# Plot network and color vertices by gender
+V(g)$color <- ifelse(V(g)$gender == "F", "salmon", "lightblue")
+plot(g , vertex.label.color = 'black')
+```
+```{r, out.width = '60%' , echo = F}
+# Plot network and color vertices by gender
+V(g)$color <- ifelse(V(g)$gender == "F", "salmon", "lightblue")
+par(mar=c(0,0,0,0))
+plot(g , vertex.label.color = 'black')
+```
+
+## **Adding attributes**
+```{r , out.width = '65%', eval = F}
+# Plot edge width by hours
+plot(g , vertex.label.color = 'black' , edge.width = E(g)$hour)
+```
+```{r , out.width = '65%', echo = F}
+# Plot edge width by hours
+par(mar=c(0,0,0,0))
+plot(g , vertex.label.color = 'black' , edge.width = E(g)$hour)
+```
+
+
+## **Network layouts**
+```{r , eval = F}
+# Plot the graph object g in a circle layout
+plot(g, vertex.label.color = "black", layout = layout_in_circle(g))
+```
+```{r , eval = F}
+# Plot the graph object g in a Tree layout
+m <- layout_as_tree(g)
+plot(g, vertex.label.color = "black", layout = m)
+```
+```{r, out.width = '50%' , echo = F}
+# Plot the graph object g in a circle layout
+par(mar=c(0,0,0,0))
+plot(g, vertex.label.color = "black", layout = layout_in_circle(g))
+```
+
+## **Edges & Neighbors**
+```{r}
+# Show all edges going to or from Jessie
+incident(g, 'Jessie', mode = "all")
+```
+```{r}
+# Identify other vertices that direct edges towards Sidney
+neighbors(g, 'Sidney', mode = c('in'))
+```
+
+## **Other Visualization Packages**
+
+- Static : igraph , statnet , ggnet , ggnetwork , ggraph <br/>
+- Dynamic : visNetwork , networkD3 , rgexf (igraph to Gephi) , threejs
+
+```{r , echo=F}
+library(networkD3)
+# Load data
+data(MisLinks)
+data(MisNodes)
+
+# Plot
+forceNetwork(Links = MisLinks, Nodes = MisNodes,
+            Source = "source", Target = "target",
+            Value = "value", NodeID = "name",
+            Group = "group", opacity = 0.8)
+```
+
+## **threejs**
+
+```{r , echo=F}
+library(threejs)
+data(LeMis)
+graphjs(LeMis, layout=layout_with_fr(LeMis, dim=3))
+```
+
+
+## **Exercise a**
+
+1. Read the file **node.book.rds** , assigning the result to *node.book*
+ (windows請使用**node.book(utf8).rds** , mac請使用**node.book(big5).rds**)
+
+2. Examine the column names of the *node.book*.
+
+3. Take a look at the first 10 row of *node.book*.
+
+4. Create a logical vector (name : v.price) if the object price in *node.book* above NT$300(use function ifelse)
+
+5. If you run the following line of code, what will be the class of the resulting object:
+x <- "2017-01-01" <br/>
+A. text
+B. character
+C. numeric
+D. factor
+E. none of the above
+
+## **Exercise b**
+
+1. Read the file **edge.book.rds** , assigning the result to the *edge.book* 
+ (windows請使用**edge.book(utf8).rds** , mac請使用**edge.book(big5).rds**)
+ 
+2. Create an igraph object by *edge.book* with attributes directly from *node.book* (data from part a)
+
+3. Plot *edge.book* with vertex.size by the sqrt of indegree (use function sqrt) and color vertices by category (3個類別 , use function ifelse two times) 
+
+作業請寫成R script的形式
+檔名為學號＋姓名（710664103趙于安）
+
+
+# <b style="font-size:80px;color:black;">Concept and Application</b>
+
+## **Density**
+
+Density is the proportion of observed ties in a network to the maximum number of pootential ties. Thus, density is a ratio that can range from 0 to 1. 
+
+$$Potential\ connections=\frac{n(n-1)}{2}$$
+$$Network\ density=\frac{Actual\ connections}{Potential\ connections}=\frac{2L^*}{n(n-1)}$$
+
+<b style="font-size:20px;">*L is the number of actual ties in the network</b>
+
+```{r , eval = F}
+# Get density of a graph
+edge_density(g)
+```
+
+```{r , echo = F}
+edge_density(g) 
+```
+
+## **Connectivity**
+
+
+
+## **Transitivity**
+
+One characteristics of social networks is the presence of clustering, or the tendency to formed closed triangles. The process of closure occurs when two people who share a common friend also become friends themselves.
+
+<img src="picture/transtivity.png" style="background:none; border:none; box-shadow:none;">
+
+## **Transitivity**
+
+Transitivity is deﬁned as the proportion of closed triangles (triads where all three ties are observed) to the total number of open and closed triangles (triads where either two or all three ties are observed).
+
+```{r}
+# Calculate the transitivity of the network.
+transitivity(g)
+```
+
+## **Degree**
+
+the most straightforward measure of vertex importance is the degree of a vertex
+
+```{r , eval = F}
+# Indegree
+degree(g, mode=c("in")) 
+```
+```{r , echo = F}
+head(degree(g, mode=c("in"))  , 8)
+tail(degree(g, mode=c("in"))  , 8)
+```
+
+```{r , eval = F}
+# Outdegree
+degree(g, mode=c("out")) 
+```
+```{r , eval = F}
+# Alldegree
+degree(g, mode=c("all")) 
+```
+
+## **Betweenness centrality** 
+</br>
+*an index of how frequently the vertex lies on shortest paths between any two vertices in the network.* 
+
+$$C_b(n_i)=\sum_{j<k}\frac{g_{jk}(n_i)}{g_{jk}}$$
+</br>
+<b style="font-size:20px;">$$g_{jk} = the\ number\ of\ geodesics\ connecting\ jk\ ;\ g_{jk}(n_i) = the\ number\ that\ actor\ i\ is\ on$$ </b>
+
+$$Usually\ normalized\ by:C'_b(n_i)=\frac{C_b(n_i)}{\frac{(g-1)(g-2)}{2}}$$
+
+## 
+```{r , eval = F}
+# Calculate betweenness of each vertex
+betweenness(g, directed = TRUE) 
+```
+```{r , echo = F}
+head(betweenness(g, directed = TRUE) , 8)
+tail(betweenness(g, directed = TRUE) , 8)
+```
+```{r , out.width = '55%' , echo = F}
+par(mar=c(0,0,0,0))
+# Create plot with vertex size determined by betweenness score
+plot(g, 
+     edge.color = 'black',
+     vertex.size = sqrt(betweenness(g, directed = TRUE))+1,
+     edge.arrow.size = 0.05,
+     layout = layout_nicely(g))
+```
+
+## **Closeness centrality**
+
+Attempt to capture the notion that a actor is relatively close to all other actors.Closeness centrality is the inverse of the sum of all the *distances* between each node and all the other nodes in the network.
+
+$$C_c(n_i)=[\sum_{j=1}^gd(n_i,n_j)]^{-1}$$ </br>
+$$Usually\ normalized\ by:C'_c(n_i)=(C_c(n_i))(g-1)$$
+
+## **Closeness centrality**
+
+<img src="picture/clossness.png" style="background:none; border:none; box-shadow:none;">
+
+##
+```{r , eval = F}
+# Calculate closeness of each vertex
+closeness(g) 
+```
+```{r , echo = F , warning = F , message = F}
+head(closeness(g) , 8) %>>% round(4)
+tail(closeness(g) , 8) %>>% round(4)
+```
+```{r , out.width = '55%' , echo = F , warning = F , message = F}
+par(mar=c(0,0,0,0))
+# Create plot with vertex size determined by betweenness score
+plot(g, 
+     edge.color = 'black',
+     vertex.size = sqrt(closeness(g , normalized = T)*70),
+     edge.arrow.size = 0.05,
+     layout = layout_nicely(g))
+```
+
+## **Eigenvector Centrality**
+
+Bonacich Power Centrality : Actor’s centrality is equal to a function of the prestige of those they are connected to. Thus, actors who are tied to very central actors should have higher prestige/ centrality than other.
+
+$$C_{ei}(v)=α\sum_{j=1}C_{ei}(u)$$
+
+where ei is the eigenvector centrality score and α is a proportionality constant called the eigenvalue. When it comes to eigenvector centrality, a node is only as central as its network. 
+
+## **Eigenvector Centrality**
+```{r , out.width = '50%' , echo = F , warning = F , message = F}
+par(mar=c(0,0,0,0))
+plot(g , edge.arrow.size = 0.05)
+```
+```{r , eval = F}
+eigen_centrality(g)$vector
+```
+```{r , echo = F}
+head(eigen_centrality(g)$vector , 8) %>>% round(4)
+tail(eigen_centrality(g)$vector , 8) %>>% round(4)
+```
+
+## **Cliques**
+
+Cliques are one of the simplest types of cohesive subgroups. A clique is a maximally complete subgraph; that is, it is a subset of nodes that have all possible ties among them.
+
+<img src="picture/cliques.png" style="background:none; border:none; box-shadow:none;" height="300px" width="400px">
+
+<b style="font-size:25px;">In a clique every two unique nodes are adjacent - that means that every individual node is connected to every other individual node in the clique.</b>
+
+## **Identifying Cliques**
+```{r, warning = F , message = F}
+# the size of the largest clique
+clique.number(g)
+# Identify the largest cliques in the network
+largest_cliques(g)
+```
+
+## **Identifying Cliques**
+```{r, warning = F,  message = F}
+# Determine all maximal cliques in the network
+max_cliques(g)
+```
+
+## **Visualize largest cliques**
+```{r, warning = F,  message = F , out.width = '70%'}
+# Assign largest cliques output to object 'lc'
+lc <- largest_cliques(g)
+lc
+# Create two new undirected subgraphs
+gs1 <- as.undirected(subgraph(g, lc[[1]]))
+gs2 <- as.undirected(subgraph(g, lc[[2]]))
+```
+
+## **Visualize largest cliques**
+```{r , warning = F,  message = F , out.width = '70%'}
+# Plot the two largest cliques side-by-side
+par(mfrow=c(1,2)) 
+
+plot(gs1, vertex.label.cex = 0.9,vertex.size = 0,edge.color = 'gray28',
+     main = "Largest Clique 1",layout = layout.circle(gs1))
+plot(gs2, vertex.label.cex = 0.9,vertex.size = 0,edge.color = 'gray28',
+     main = "Largest Clique 2",layout = layout.circle(gs2))
+```
+
+## **Components**
+
+Components of a graph are sub-graphs that are *connected within*, but disconnected between sub-graphs.
+
+<img src="picture/componment.png" style="background:none; border:none; box-shadow:none;" height="500px" width="1000px">
+
+## **Components**
+
+```{r, echo = F}
+library(data.table)
+node.book <- readRDS("data/node.book(big5).rds")
+edge.book <- readRDS("data/edge.book(big5).rds")
+g <- graph_from_data_frame(edge.book ,node.book , directed = F)
+
+node.book[,comp:=components(g)$membership]
+```
+```{r , eval=F}
+# 產生一個vector，內容為每一個vertex所屬的component
+components(g)$membership
+```
+```{r, echo = F}
+components(g)$membership %>>% head(5)
+```
+
+## **Cut-point and Bicomponent**
+
+A *bridge* is a line whose removal increases the number of components in the network.
+
+A *cut-point* is a vertex whose deletion increases the number of components in the network.
+
+A *bi-component* is a component which does not contain a cut-vertex and size greater than 3.
+
+<img src="picture/cut.gif" style="background:none; border:none; box-shadow:none;" height="300px" width="600px">
+
+## **Cut-point and Bicomponent**
+
+```{r}
+# cut points are vertices whose removal increases the number of connected components
+articulation_points(g)
+```
+
+## **Cut-point and Bicomponent**
+
+```{r}
+# Bicomponents
+bc <- biconnected_components(g)
+summary(bc)
+
+biconnected_components(g)$components
+```
+
+
+## **Network Randomizations**
+
+
+```{r}
+erdos.renyi.game(n = gorder(g), p.or.m = edge_density(g), type = "gnp")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

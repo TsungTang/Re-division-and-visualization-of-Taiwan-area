@@ -1,0 +1,60 @@
+PCbiplot <- function(PC, x="PC1", y="PC2", colors=c('black', 'black', 'red', 'red')) {
+  # PC being a prcomp object
+  data <- data.frame(obsnames=row.names(PC$x), PC$x)
+  plot <- ggplot(data, aes_string(x="PC1", y="PC2")) + geom_text(alpha=.6, size=3, aes(label=obsnames), color=colors[1])
+  # plot <- plot + geom_hline(aes(0), size=.2) + geom_vline(aes(0), size=.2, color=colors[2])
+  datapc <- data.frame(varnames=rownames(PC$rotation), PC$rotation)
+  mult <- min(
+    (max(data[,"PC2"]) - min(data[,"PC2"])/(max(datapc[,"PC2"])-min(datapc[,"PC2"]))),
+    (max(data[,"PC1"]) - min(data[,"PC1"])/(max(datapc[,"PC1"])-min(datapc[,"PC1"])))
+  )
+  datapc <- transform(datapc,
+                      v1 = .7 * mult * (get("PC1")),
+                      v2 = .7 * mult * (get("PC2"))
+  )
+  plot <- plot + coord_equal() + geom_text(data=datapc, aes(x=v1, y=v2, label=varnames), size = 10, vjust=1, color=colors[3])
+  plot <- plot + geom_segment(data=datapc, aes(x=0, y=0, xend=v1, yend=v2), arrow=arrow(length=unit(0.4,"cm")), alpha=0.75, color=colors[4]) + theme(text = element_text(size=40))
+  plot
+}
+
+  
+
+# PC = pca1
+# fit <- prcomp(x = formula = ~ occI + hakka + aboriginal + mainland + elder + buddhism + christianity + folk + non + taoism+female,  
+#               data = demography.df,                           
+#               scale = TRUE, scale=T)
+# 
+# fit <- prcomp(demography.dt[,2:12], scale=T)
+# row.names(fit$x) = demography.dt$town.name
+# PCbiplot(pca1)
+# PC = fit
+# biplot(fit)
+#### start partitioning!
+
+
+
+
+test <- spodt(ST.pca1~1, town.point[!is.na(town.point[['ST.pca1']]),],
+                 graft = 0, level.max = 100, min.parent = 25, min.child = 15, rtwo.min = 0.01)
+
+testdt= copy(town.s@data) %>>% setDT() 
+
+testdt[!is.na(ST.pca1_10),lapply(.SD , mean) , by= 'ST.pca1_10' ,.SDcols = c("college","income" , "occp" ,"ses", "ses5")]
+
+# pca
+pca1 <- prcomp(formula = ~ occI + hakka + aboriginal + mainland + elder +buddhism+christianity+ folk+non +taoism+female,  
+               data = town.point[!is.na(town.point[['ST.pca1']]),],                           
+               scale = TRUE)   
+
+
+test <- spodt(ST.pca1~1, town.point[!is.na(town.point[['ST.pca1']]),],
+              graft = 0, level.max = 100, min.parent = 25, min.child = 15, rtwo.min = 0.01)
+test <- spodt(demo.pca2~1, town.point[!is.na(town.point[['demo.pca2']]),],
+              graft = 0, level.max = 100, min.parent = 25, min.child = 15, rtwo.min = 0.01)
+spodt.tree(test)
+
+town.s.dt = copy(town.s@data) %>>% setDT()
+
+
+
+demography.dt[,lapply(.SD, mean) , by = 'sp.g0.chi15.pca1' , .SDcols = names(demography.dt)[2:13]]

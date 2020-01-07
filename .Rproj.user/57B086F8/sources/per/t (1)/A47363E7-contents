@@ -1,0 +1,67 @@
+---
+title: "Region Classification in TSCS"
+author: 'Lee Tsung-Tang'
+output:
+  revealjs::revealjs_presentation:
+    mathjax: local
+    self_contained: false
+    incremental: true
+    theme: night
+    highlight: pygments
+    center: true
+    transition: convex
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+    beamer_presentation:
+      toc: false
+      incremental: true
+---
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(pipeR)
+```
+
+
+
+# **Clustering Methods**
+
+## 資料簡化的需求
+
+- Principle Component Analysis
+
+
+<img src="/Volumes/GoogleDrive/我的雲端硬碟/181109.classification.area/img/agg.HC.gif" style="background:none; border:none; box-shadow:none; height="1000px" width="1000px"; align='center';">
+
+
+
+## <b style="font-size:60px;">Outline</b> 
+
+- Hierarchical Clustering 
+
+- Hierarchical Clustering
+
+- Classification
+
+- Conclusion
+
+# <b style="font-size:80px;">Hierarchical Clustering Algorithms </b> 
+
+## **Algorithms**
+
+1. **Agglomerative clustering:** It’s also known as AGNES (Agglomerative Nesting). It works in a bottom-up manner. That is, each object is initially considered as a single-element cluster (leaf). At each step of the algorithm, the two clusters that are the most similar are combined into a new bigger cluster (nodes). This procedure is iterated until all points are member of just one single big cluster (root) (see figure below). The result is a tree which can be plotted as a dendrogram.
+
+2. **Divisive hierarchical clustering:** It’s also known as DIANA (Divise Analysis) and it works in a top-down manner. The algorithm is an inverse order of AGNES. It begins with the root, in which all objects are included in a single cluster. At each step of iteration, the most heterogeneous cluster is divided into two. The process is iterated until all objects are in their own cluster (see figure below).
+
+## **linkage**
+
+# <b style="font-size:80px;">Social Network Introduction</b>
+
+
+## map  {data-background-iframe="/Volumes/GoogleDrive/我的雲端硬碟/181029 NS combination/map.html"}
+
+<!-- <section data-html="/Volumes/GoogleDrive/我的雲端硬碟/181029 NS combination/map.html"></section> -->
+<object data="/Volumes/GoogleDrive/我的雲端硬碟/181029 NS combination/map.html"></object>
+
+
+

@@ -1,0 +1,22 @@
+# data.table column str transform (keep all column)
+
+str.transform <- function(dt , variables , FUN) {
+  require(data.table)
+  require(stringr)
+  var = variables
+  dt.names = names(dt)
+  keep.var = dt.names[!dt.names%in% var]
+  if(length(keep.var) >=1) {
+    out.dt = cbind(dt[,c(keep.var) , with= F] , dt[,lapply(.SD, FUN ) , .SDcols = var ] )
+  }else{
+    out.dt = dt[,lapply(.SD, FUN ) , .SDcols = var ]
+  }
+  setcolorder(out.dt , dt.names)
+  
+  return(out.dt)
+}
+
+
+
+
+

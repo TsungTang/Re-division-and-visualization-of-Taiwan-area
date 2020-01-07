@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="181109.slidev1_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="181109.slidev1_files/reveal.js-3.3.0.1/css/theme/night.css" id="theme">
+
+<style type="text/css">
+.reveal section img {
+  background: rgba(255, 255, 255, 0.85);
+}
+</style>
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <link href="181109.slidev1_files/font-awesome/css/fa-svg-with-js.css" rel="stylesheet" />
+    <script src="181109.slidev1_files/font-awesome/js/fontawesome-all.min.js"></script>
+    <script src="181109.slidev1_files/font-awesome/js/fa-v4-shims.min.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="section" class="slide level2" data-background="img/background.png">
+<h2></h2>
+<p><b style="font-size:70px;">南部人跟誰同一國？</b></br> <b style="font-size:50px;">用「機器學習法」理梳台灣社會變遷資料中的區位差異</b> </br></br> <b style="font-size:40px;">中央研究院 社會學研究所</b></br> <b style="font-size:40px;">江彥生、李宗棠</b></p>
+</section>
+<section class="slide level2" data-background="img/bg2.png">
+<h2><b style="font-size:60px;">大綱</b></h2>
+<ul>
+<li><b style="font-size:40px;line-height:2;">前言</b></li>
+<li><b style="font-size:40px;line-height:2;">台灣社會科學區域劃分的研究現況</b></li>
+<li><b style="font-size:40px;line-height:2;">資料與方法</b></li>
+<li><b style="font-size:40px;line-height:2;">分析結果</b></li>
+<li><b style="font-size:40px;line-height:2;">結論-空間分群的優勢與侷限</b></li>
+</ul>
+</section>
+<section><section class="titleslide slide level1" data-background="img/bg2.png"><h1><b style="font-size:70px;">前言</b></h1></section><section class="slide level2" data-background="img/bg2.png">
+<h2><b style="font-size:55px;">臺灣的區域劃分</b></h2>
+<ul>
+<li><p><b style="font-size:40px;line-height:2;">四分類</b></br> – 行政院國發會都市及住宅發展處所擬訂之<strong>「臺灣地區綜合開發計畫」</strong></br> – 交通部中央氣象局</br></p></li>
+<li><p><b style="font-size:40px;line-height:2;">六分類</b></br> – 日治時期的五州三廳制演變而來</br></p></li>
+<li><p><b style="font-size:40px;line-height:2;">二大分區</b></br> – 政治地理分界</br></p></li>
+</ul>
+</section><section class="slide level2" data-background="img/bg2.png">
+<h2><strong>區域劃分的依據</strong></h2>
+<ul>
+<li>行政院國發會「臺灣地區綜合開發計畫」的官方劃分方式，在1979制定後沒有再更動過</br> <b style="font-size:25px;font-weight:200;">此劃分之南部區域包含<strong>嘉義市、嘉義縣、臺南市、高雄市、屏東縣、澎湖縣</strong></b></li>
+</ul>
+<p><img src="img/%E5%AE%98%E6%96%B9%E5%9C%B0%E5%8D%80%E5%8A%83%E5%88%86%E5%9C%96.PNG" style="background:none; border:none; 
+box-shadow:none ;height="600px" width="800px"; align='center'"></p>
+</section></section>
+<section><section class="titleslide slide level1" data-background="img/bg2.png"><h1><b style="font-size:70px;">台灣社會科學區域劃分的研究現況</b></h1></section><section class="slide level2" data-background="img/bg2.png">
+<h2><b style="font-size:60px;">研究類型</b></h2>
+<ul>
+<li><h3>城鄉發展</h3>
+<h6 id="1992">– 羅啟宏(1992)：臺灣省鄉鎮發展類型之研究</h6>
+<h6 id="2006">– 劉介宇、洪永泰、莊義利、陳怡如、翁文舜、劉季鑫、梁賡義(2006)：臺灣地區鄉鎮市區發展類型</h6>
+<h6 id="2008">– 侯佩君、杜素豪、廖培珊、洪永泰、章英華(2008)：臺灣鄉鎮市區類型之研究</br></br></h6></li>
+<li><h3>數位發展</h3>
+<h6 id="2012">– 行政院研究發展委員會編印(2012)鄉鎮市區數位發展分類研究報告</h6></li>
+</ul>
+</section><section class="slide level2" data-background="img/bg2.png">
+<h2><b style="font-size:50px;line-height:2;">區域分類的目的與方法</b></h2>
+<ul>
+<li><h3>目的：找出相似的地區</br></br></h3></li>
+<li><h3>方法：通常採用較為泛用群聚分析</h3>
+<h4 id="clustering-analysis">Clustering Analysis</h4>
+<h6 id="199220062008">– 羅啟宏（1992）、劉介宇等（2006）、侯佩君等（2008）</h6>
+<h5 id="latent-profile-analysis">Latent Profile Analysis</h5>
+<h5 id="2012">– 行政院研究發展委員會編印（2012）</h5>
+<h6 id="model-based-approach">– Model-based Approach</h6></li>
+</ul>
+</section></section>
+<section><section class="titleslide slide level1" data-background="img/bg2.png"><h1><b style="font-size:70px;">資料與方法</b></h1></section><section class="slide level2" data-background="img/bg2.png">
+<h2><strong>資料</strong></h2>
+<ul>
+<li><h3>台灣社會變遷資料</br></h3>
+<h6>– 優點：不會有人口、區域代表性的問題</h6>
+<h6>– 缺點：能使用特徵有限，無法選擇社會學家關心的個人變項</h6>
+</br></li>
+<li><h3 id="2000-201635">合併社會變遷2000-2016內的所有資料，共35次調查</br></br></h3></li>
+</ul>
+</section><section class="slide level2" data-background="img/bg2.png">
+<h2><strong>變項測量</strong></h2>
+<ul>
+<li><h3>人口學變項</h3>
+<p>一級產業、客家人、外省人、原住民、老年人(65)、佛教徒、基督徒(及天主教徒)、民間信仰、無信仰、道教徒、女性</p></li>
+<li><h3>社會階層</h3>
+<p>大學畢業、職業聲望（OCCP）、社會經濟地位（SES）、五等社會經濟地位</p></li>
+<li><h3>生活狀況</h3>
+<p>健康、生活滿意度、快樂：因各期調查題目測量尺度不一，經整理後三種生活狀況中勾選負面表述者（如不太快樂、很不滿意、不健康），編碼為1；其餘選項者編碼0</p></li>
+</ul>
+</section><section class="slide level2" data-background="img/bg2.png">
+<h2><strong>分群策略</strong></h2>
+<ul>
+<li><h3>官方分群</h3>
+<h6>– 行政院國發會訂定之台灣四個區域</h6></li>
+<li><h3 id="-clustering-analysisk-means-">群聚分析 (clustering analysis)：K means 演算法</h3>
+<h6 id="unsupervised-learning">– Unsupervised Learning</h6>
+<h6>– 資料簡化：以少數的資料點來代表大量的資料，達到資料壓縮的功能</h6>
+<h6>– 資料分類：以少數點來代表特定類別的資料，降低資料量及計算量，並可以減少資料中雜訊的影響</h6></li>
+<li><h3 id="spatial-oblique-decision-tree">Spatial Oblique Decision Tree</h3>
+<h6 id="supervised-learning">– Supervised Learning</h6>
+<h6 id="spatial-partitioning">– Spatial partitioning</h6>
+<h6>– 優化區域劃分的分界線：傳染病擴散、生態區域等</h6></li>
+</ul>
+</section><section id="-clustering-analysis" class="slide level2" data-background="img/bg2.png">
+<h2><b style="font-size:50px;line-height:3">群聚分析 (Clustering Analysis)</b></h2>
+<ul>
+<li><h3 id="k-means-clustering">K-Means Clustering</br></h3>
+<b style="font-size:30px;line-height:2">－ 計算每一個行政區間的距離矩陣(Euclidean Distance)</b></br> <b style="font-size:30px;line-height:2">－ Silhouette Coefficient找出最佳的<strong>K群</strong>分群數</b></br> <b style="font-size:30px;line-height:2">－ 以演算法找出適當的類別，使得類別內變異量相加有最小值</b></li>
+</ul>
+</section><section id="spatial-oblique-decision-tree-1" class="slide level2" data-background="img/bg2.png">
+<h2><b style="font-size:50px;line-height:2">Spatial Oblique Decision Tree</b></h2>
+<ul>
+<li><h3 id="cartclassification-and-regression-tree">CART(classification and regression tree)的變形</br></h3></li>
+<li><h3>函數形式：</h3></li>
+</ul>
+<p><b style="font-size:40px;line-height:1.5;font-weight:200;"><span class="math display">\[z_i=f(x_i,y_i)+\epsilon_i\]</span></b></p>
+<p><b style="font-size:25px;line-height:1.5;font-weight:200;"><span class="math display">\[z_i:outcome\ variable\ \ \ \ {x_i,y_i}: planar\ coordinates\ of\ each\ point\ location\ M_i\ ,\ i = 1...N\]</span></b></br></p>
+<p><span class="math display">\[f(x_i,y_i)可以表示為:\ \sum_{j=1}^{P}\overline{z_j} \big\{M_i(x_i,y_i) \in class_j\big\}\]</span></br> <b style="font-size:25px;line-height:1.5;font-weight:200;"><span class="math display">\[class_j:for\ j = 1, ...P, are\ the\ final\ P\ classes\ after\ splitting\ the\ whole\ study\ area\]</span></b></br></p>
+</section><section id="spatial-oblique-decision-tree-" class="slide level2" data-background="img/bg2.png">
+<h2><strong>Spatial Oblique Decision Tree 切割後的結果</strong></h2>
+<p><img src="img/spodt.results3.pca1.png" style="margin-left:-150px;background:none; border:none; box-shadow:none ;height="400px" width="350px";"> <img src="img/spodt.results3.pca2.png" style="margin-right:-150px;background:none; border:none; box-shadow:none ;height="400px" width="350px";"></p>
+</section></section>
+<section><section class="titleslide slide level1" data-background="img/bg2.png"><h1><b style="font-size:70px;">分析結果</b></h1></section><section id="demography-pca-life-status-pca" class="slide level2" data-background="img/bg2.png">
+<h2><strong>Demography PCA &amp; Life status PCA</strong></h2>
+<p><img src="img/pca.demo.png" style="margin-left:-150px;background:none; border:none; box-shadow:none ;height="400px" width="450px";"> <img src="img/pca.life.png" style="margin-right:-150px;background:none; border:none; box-shadow:none ;height="600px" width="650px";"></p>
+</section><section id="social-stratification-pca" class="slide level2" data-background="img/bg2.png">
+<h2><strong>Social Stratification PCA</strong></h2>
+<p><img src="img/pca.ST.png" style="background:none; border:none; box-shadow:none;height="1300px" width="1300px";"></p>
+</section><section id="map" class="slide level2" data-background="img/bg2.png">
+<h2>MAP</h2>
+<iframe src="map.html" height="600" width="1500" scrolling="no" seamless="seamless" frameBorder="0" style="margin-left:0px">
+</iframe>
+</section><section id="demography" class="slide level2" data-background="img/bg2.png">
+<h2><strong>Demography</strong></h2>
+<p><b style="font-size:20px;line-height:0.5">PCA1為+，屬於第一級產業、老人、民間信仰的群體。PCA1為-，外省人、佛教、無宗教教信仰。</b></br> <b style="font-size:20px;line-height:0.5">PCA2為-，屬於原住民、基督(天主)教徒的群體。</b></p>
+<iframe src="img/demo.cluster.html" height="400" width="600" scrolling="no" seamless="seamless" frameBorder="0" style="margin-left:-500px;">
+</iframe>
+<iframe src="img/demo.pca1.html" height="400" width="600" scrolling="no" seamless="seamless" frameBorder="0" style="margin-right:-500px;">
+</iframe>
+</section><section id="social-stratification" class="slide level2" data-background="img/bg2.png">
+<h2><strong>Social Stratification</strong></h2>
+<p><b style="font-size:20px;line-height:0.5">PCA1為-，屬於上大學比例高、收入、職業聲望以及社經地位皆較高的群體。</b></p>
+<iframe src="img/st.cluster.html" height="400" width="600" scrolling="no" seamless="seamless" frameBorder="0" style="margin-left:-500px;">
+</iframe>
+<iframe src="img/st.pca1.html" height="400" width="600" scrolling="no" seamless="seamless" frameBorder="0" style="margin-right:-500px;">
+</iframe>
+</section><section id="life-status" class="slide level2" data-background="img/bg2.png">
+<h2><strong>Life status</strong></h2>
+<p><b style="font-size:20px;line-height:0.5">PCA1+，不滿意度越低；PCA1-，不滿意度高。</b></br> <b style="font-size:20px;line-height:0.5">PCA2為-，屬於不健康或不快樂程度較高的群體。</b></p>
+<iframe src="img/life.cluster.html" height="400" width="600" scrolling="no" seamless="seamless" frameBorder="0" style="margin-left:-500px;">
+</iframe>
+<iframe src="img/life.pca2.html" height="400" width="600" scrolling="no" seamless="seamless" frameBorder="0" style="margin-right:-500px;">
+</iframe>
+</section></section>
+<section><section class="titleslide slide level1" data-background="img/bg2.png"><h1><b style="font-size:70px;">結論</b></h1></section><section class="slide level2" data-background="img/bg2.png">
+<h2><strong>空間分群的優勢與侷限</strong></h2>
+<ul>
+<li><h3 id="-v.s.-">空間分群 v.s. 集群分析</h3></li>
+<li><h3 id="characteristic-attitude-behavior">以核心變項(characteristic, attitude, behavior…等)進行區域及空間的探索</h3>
+<h6>– 分群</h6>
+<h6>– 南北差異(東西差異)</h6>
+<h6>– 重新劃界</h6></li>
+<li><h3>限制</h3>
+<h6>– 調查資料很難覆蓋全台灣</h6>
+<h6>– 哪些特徵適合使用空間分群?(那些特徵能夠反應在空間上)</h6>
+<h6>– 機器學習的結果不容易解釋</h6></li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="181109.slidev1_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="181109.slidev1_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'concave', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+        menu: {
+          custom: false,
+          themes: false,
+          transitions: false
+        },
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '181109.slidev1_files/reveal.js-3.3.0.1/plugin/menu/menu.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "181109.slidev1_files/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
